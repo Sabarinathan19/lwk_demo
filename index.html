@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AccessCoach</title><style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans&display=swap');
+
+:root {
+  --ink:#0e0e0f;
+  --paper:#faf9f6;
+  --teal:#1a6b6b;
+  --gold:#c8922a;
+  --muted:#6b6760;
+}
+
+body{margin:0;font-family:'DM Sans';background:var(--paper);}
+.hidden{display:none;}
+
+/* Auth */
+.auth{display:flex;height:100vh;}
+.left{flex:1;background:var(--teal);color:#fff;padding:60px;}
+.right{flex:1;display:flex;align-items:center;justify-content:center;}
+.card{width:320px;}
+input{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:6px;}
+button{padding:10px;width:100%;background:var(--teal);color:#fff;border:none;border-radius:6px;cursor:pointer;}
+
+/* Dashboard */
+.dashboard{display:flex;height:100vh;}
+.sidebar{width:220px;background:#111;color:#fff;padding:20px;}
+.sidebar h2 span{color:var(--gold);} 
+.menu div{padding:10px;cursor:pointer;}
+.menu div:hover{background:#333;}
+
+.main{flex:1;padding:20px;overflow:auto;}
+.card-box{background:#fff;padding:20px;border-radius:10px;margin-bottom:15px;}
+.video{padding:10px;border:1px solid #ddd;margin-bottom:10px;border-radius:8px;}
+</style></head><body><!-- AUTH --><div id="auth" class="auth">
+  <div class="left">
+    <h1>Learn <em>Accessibility</em></h1>
+    <p>Modern learning platform</p>
+  </div>
+  <div class="right">
+    <div class="card">
+      <h2>Access<span style="color:var(--gold)">Coach</span></h2>
+      <input id="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+</div><!-- DASHBOARD --><div id="app" class="dashboard hidden">
+  <div class="sidebar">
+    <h2>Access<span>Coach</span></h2>
+    <div class="menu">
+      <div onclick="showPage('dashboard')">Dashboard</div>
+      <div onclick="showPage('videos')">Videos</div>
+      <div onclick="showPage('notes')">Notes</div>
+      <div onclick="logout()">Logout</div>
+    </div>
+  </div>  <div class="main"><div id="dashboardPage">
+  <div class="card-box">
+    <h3>Welcome 👋</h3>
+    <p>This is your dashboard</p>
+  </div>
+</div>
+
+<div id="videosPage" class="hidden">
+  <div class="card-box">
+    <h3>Videos</h3>
+    <div id="videoList"></div>
+  </div>
+</div>
+
+<div id="notesPage" class="hidden">
+  <div class="card-box">
+    <h3>Notes</h3>
+    <textarea id="noteInput" placeholder="Write note..."></textarea>
+    <button onclick="addNote()">Save</button>
+    <div id="notesList"></div>
+  </div>
+</div>
+
+  </div>
+</div><script>
+
+// Sample Data
+const videos=[
+ {title:"WCAG Guide"},
+ {title:"Screen Reader"},
+ {title:"Color Contrast"}
+];
+
+// Auth
+function login(){
+  document.getElementById('auth').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  loadVideos();
+}
+
+function logout(){location.reload();}
+
+// Navigation
+function showPage(page){
+  ['dashboardPage','videosPage','notesPage'].forEach(id=>{
+    document.getElementById(id).classList.add('hidden');
+  });
+  document.getElementById(page+'Page').classList.remove('hidden');
+}
+
+// Videos
+function loadVideos(){
+  const container=document.getElementById('videoList');
+  container.innerHTML='';
+  videos.forEach(v=>{
+    const div=document.createElement('div');
+    div.className='video';
+    div.innerText=v.title;
+    container.appendChild(div);
+  });
+}
+
+// Notes
+function addNote(){
+  const val=document.getElementById('noteInput').value;
+  if(!val) return;
+
+  const list=document.getElementById('notesList');
+  const div=document.createElement('div');
+  div.className='video';
+  div.innerText=val;
+  list.appendChild(div);
+
+  document.getElementById('noteInput').value='';
+}
+
+</script></body>
+      </html>
